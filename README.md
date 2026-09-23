@@ -1,5 +1,12 @@
 # ATLAS
 
+<p align="center">
+  <a href="https://github.com/CJX0712/atlas-ai-stack/actions/workflows/ci.yml"><img src="https://github.com/CJX0712/atlas-ai-stack/actions/workflows/ci.yml/badge.svg" alt="ci"></a>
+  <a href="https://github.com/CJX0712/atlas-ai-stack/releases"><img src="https://img.shields.io/github/v/release/CJX0712/atlas-ai-stack?sort=semver" alt="release"></a>
+  <a href="https://github.com/CJX0712/atlas-ai-stack/blob/main/LICENSE"><img src="https://img.shields.io/github/license/CJX0712/atlas-ai-stack" alt="license"></a>
+  <img src="https://img.shields.io/badge/author-%E6%99%A8%E6%98%9F-1f6feb" alt="author">
+</p>
+
 **Autonomous Task-oriented Layered Agentic System** — a modular, end-to-end runnable AI system.
 
 Hybrid retrieval · guarded cross-encoder reranking · deterministic tool routing · ReAct reasoning · grounding verification · reproducible evaluation.
