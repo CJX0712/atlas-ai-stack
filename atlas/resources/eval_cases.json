@@ -1,0 +1,82 @@
+[
+  {
+    "question": "混合检索里为什么不能直接对分数做加权求和？",
+    "relevant_docs": ["hybrid-retrieval"],
+    "expected_route": "retrieve"
+  },
+  {
+    "question": "倒数排名融合的默认 k 取多少？k 变大有什么影响？",
+    "relevant_docs": ["hybrid-retrieval"],
+    "expected_route": "retrieve"
+  },
+  {
+    "question": "BM25 的 IDF 应该写成什么形式才是恒正的？",
+    "relevant_docs": ["hybrid-retrieval", "reproducible-delivery"],
+    "expected_route": "retrieve"
+  },
+  {
+    "question": "为什么中文语料的 BM25 单元测试至少需要三篇文档？",
+    "relevant_docs": ["hybrid-retrieval"],
+    "expected_route": "retrieve"
+  },
+  {
+    "question": "Why does letting a cross-encoder replace the fused order hurt top-1 accuracy?",
+    "relevant_docs": ["rerank-guard", "hybrid-retrieval"],
+    "expected_route": "retrieve"
+  },
+  {
+    "question": "What does the guard do when the reranker is negatively correlated with the retriever?",
+    "relevant_docs": ["rerank-guard"],
+    "expected_route": "retrieve"
+  },
+  {
+    "question": "为什么 CPU 上小模型的线程数要固定在 2 到 4 而不是用满所有核心？",
+    "relevant_docs": ["cpu-inference"],
+    "expected_route": "retrieve"
+  },
+  {
+    "question": "How should CPU inference throughput be measured fairly?",
+    "relevant_docs": ["cpu-inference"],
+    "expected_route": "retrieve"
+  },
+  {
+    "question": "接地核验为什么按句核验，而且分母取回答句的实词数？",
+    "relevant_docs": ["grounding"],
+    "expected_route": "retrieve"
+  },
+  {
+    "question": "哪些情况不应该被确定性预路由拦截？",
+    "relevant_docs": ["deterministic-routing"],
+    "expected_route": "retrieve"
+  },
+  {
+    "question": "可复现交付的三层证据是什么？",
+    "relevant_docs": ["reproducible-delivery"],
+    "expected_route": "retrieve"
+  },
+  {
+    "question": "为什么不能使用 Python 内置的 hash 做特征散列？",
+    "relevant_docs": ["reproducible-delivery"],
+    "expected_route": "retrieve"
+  },
+  {
+    "question": "计算 12*(3+4)+18/3 等于多少？",
+    "relevant_docs": [],
+    "expected_route": "arithmetic"
+  },
+  {
+    "question": "计算 (128+64)/8-100 等于多少？",
+    "relevant_docs": [],
+    "expected_route": "arithmetic"
+  },
+  {
+    "question": "2026-01-01 到 2026-09-24 相差多少天？",
+    "relevant_docs": [],
+    "expected_route": "date"
+  },
+  {
+    "question": "1500 m to km 换算成多少？",
+    "relevant_docs": [],
+    "expected_route": "unit"
+  }
+]

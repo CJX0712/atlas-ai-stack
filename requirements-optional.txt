@@ -1,0 +1,21 @@
+# Optional accelerators and heavyweight backends - pinned to exact versions.
+#
+# None of these is required. Each one has a working zero-dependency fallback,
+# selected automatically when the import fails:
+#
+#   numpy            -> pure-Python dot products in MemoryVectorIndex
+#   faiss-cpu        -> MemoryVectorIndex            (ATLAS_INDEX_BACKEND=faiss)
+#   fastembed        -> HashEmbeddingProvider        (ATLAS_EMBED_PROVIDER=onnx)
+#   llama-cpp-python -> MockLLM                      (ATLAS_LLM_PROVIDER=llama_cpp)
+#   loguru           -> stdlib logging in telemetry
+#   pypdf            -> not imported at runtime; for external PDF ingestion
+#
+# Verified on win_amd64 / CPython 3.13. `llama-cpp-python` publishes wheels;
+# if pip falls back to a source build you need a C++ toolchain.
+
+numpy==2.5.3
+faiss-cpu==1.15.1
+fastembed==0.8.0
+llama-cpp-python==0.3.35
+loguru==0.7.3
+pypdf==6.19.0

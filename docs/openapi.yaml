@@ -1,0 +1,373 @@
+openapi: 3.1.0
+info:
+  title: ATLAS
+  description: 'ATLAS - Autonomous Task-oriented Layered Agentic System. Hybrid retrieval, guarded cross-encoder
+    reranking, deterministic tool routing, ReAct reasoning and per-claim grounding verification. Generated
+    from the live FastAPI application so it cannot drift from the implementation. Author: 晨星'
+  version: 1.0.0
+  contact:
+    name: 晨星
+    url: https://github.com/CJX0712
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+paths:
+  /health:
+    get:
+      tags:
+      - ops
+      summary: Health
+      operationId: health_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+  /health/deep:
+    get:
+      tags:
+      - ops
+      summary: Health Deep
+      operationId: health_deep_health_deep_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Health Deep Health Deep Get
+  /v1/stats:
+    get:
+      tags:
+      - ops
+      summary: Stats
+      operationId: stats_v1_stats_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Stats V1 Stats Get
+  /v1/corpus:
+    get:
+      tags:
+      - data
+      summary: Corpus
+      operationId: corpus_v1_corpus_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Corpus V1 Corpus Get
+  /v1/ingest:
+    post:
+      tags:
+      - data
+      summary: Ingest
+      operationId: ingest_v1_ingest_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngestResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/query:
+    post:
+      tags:
+      - query
+      summary: Query
+      operationId: query_v1_query_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/query/stream:
+    post:
+      tags:
+      - query
+      summary: Query Stream
+      operationId: query_stream_v1_query_stream_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/eval:
+    post:
+      tags:
+      - eval
+      summary: Run Eval
+      operationId: run_eval_v1_eval_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EvalRequest'
+              default:
+                include_cases: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Run Eval V1 Eval Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/guard/probe:
+    post:
+      tags:
+      - eval
+      summary: Guard Probe
+      operationId: guard_probe_v1_guard_probe_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Guard Probe V1 Guard Probe Post
+components:
+  schemas:
+    EvalRequest:
+      properties:
+        k:
+          anyOf:
+          - type: integer
+            maximum: 50.0
+            minimum: 1.0
+          - type: 'null'
+          title: K
+        include_cases:
+          type: boolean
+          title: Include Cases
+          default: true
+      type: object
+      title: EvalRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    HealthResponse:
+      properties:
+        status:
+          type: string
+          title: Status
+        version:
+          type: string
+          title: Version
+        chunks:
+          type: integer
+          title: Chunks
+        documents:
+          type: integer
+          title: Documents
+        build:
+          additionalProperties: true
+          type: object
+          title: Build
+      type: object
+      required:
+      - status
+      - version
+      - chunks
+      - documents
+      - build
+      title: HealthResponse
+    IngestRequest:
+      properties:
+        documents:
+          additionalProperties:
+            type: string
+          type: object
+          title: Documents
+          description: Mapping of stable doc_id to raw text.
+          examples:
+          - release-notes: '# 版本说明
+
+              本次发布包含检索融合修复。'
+        replace:
+          type: boolean
+          title: Replace
+          description: When true the corpus is cleared before ingesting.
+          default: false
+      type: object
+      title: IngestRequest
+    IngestResponse:
+      properties:
+        documents:
+          type: integer
+          title: Documents
+        chunks:
+          type: integer
+          title: Chunks
+        dim:
+          type: integer
+          title: Dim
+        elapsed_ms:
+          type: number
+          title: Elapsed Ms
+        doc_ids:
+          items:
+            type: string
+          type: array
+          title: Doc Ids
+      type: object
+      required:
+      - documents
+      - chunks
+      - dim
+      - elapsed_ms
+      - doc_ids
+      title: IngestResponse
+    QueryRequest:
+      properties:
+        question:
+          type: string
+          maxLength: 4000
+          minLength: 1
+          title: Question
+        k:
+          anyOf:
+          - type: integer
+            maximum: 50.0
+            minimum: 1.0
+          - type: 'null'
+          title: K
+      type: object
+      required:
+      - question
+      title: QueryRequest
+    QueryResponse:
+      properties:
+        question:
+          type: string
+          title: Question
+        answer:
+          type: string
+          title: Answer
+        citations:
+          items:
+            type: string
+          type: array
+          title: Citations
+        route:
+          type: string
+          title: Route
+        steps:
+          type: integer
+          title: Steps
+        trace:
+          items:
+            type: string
+          type: array
+          title: Trace
+        grounding:
+          additionalProperties: true
+          type: object
+          title: Grounding
+        latency_ms:
+          type: number
+          title: Latency Ms
+      type: object
+      required:
+      - question
+      - answer
+      - citations
+      - route
+      - steps
+      - trace
+      - grounding
+      - latency_ms
+      title: QueryResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError

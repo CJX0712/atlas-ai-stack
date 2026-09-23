@@ -1,0 +1,55 @@
+# ATLAS - two service shapes.
+#
+#   atlas          the API, offline stack, bound to loopback by default
+#   verify         a one-shot verification run; only builds when requested
+#
+# Author: 晨星
+
+services:
+  atlas:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: atlas-ai-stack:1.0.0
+    container_name: atlas-api
+    ports:
+      # Bind to loopback only. Change to "8077:8077" deliberately, never by
+      # default, so a local run does not silently expose the service.
+      - "127.0.0.1:8077:8077"
+    environment:
+      ATLAS_LLM_PROVIDER: mock
+      ATLAS_EMBED_PROVIDER: hash
+      ATLAS_RERANK_PROVIDER: lexical
+      ATLAS_INDEX_BACKEND: memory
+      # Small quantised models on CPU are bandwidth bound; four threads beats
+      # cpu_count - 1 by roughly 4x. Raise this only with a measurement.
+      ATLAS_CPU_THREADS: "4"
+      ATLAS_LOG_LEVEL: INFO
+    restart: unless-stopped
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8077/health', timeout=4).status == 200 else 1)"
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          # The in-memory index and the hashed encoder are small; this bound is
+          # generous on purpose and exists to make growth visible.
+          memory: 2g
+
+  verify:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: atlas-ai-stack:1.0.0
+    profiles: ["verify"]
+    command: ["python", "scripts/verify.py"]
+    environment:
+      ATLAS_LOG_LEVEL: WARNING
+    # No ports, no volumes: verification must prove the image is self-sufficient.

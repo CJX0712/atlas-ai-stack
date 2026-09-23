@@ -1,0 +1,8 @@
+# Core runtime - pinned to exact versions.
+#
+# The system runs with ZERO third-party packages on the offline path
+# (mock LLM + hashed embeddings + in-memory index + argparse CLI).
+# These three are required only to serve the HTTP API.
+fastapi==0.141.1
+uvicorn==0.53.0
+pydantic==2.13.5

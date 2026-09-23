@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.cleanroom/
+env/
+
+# Test and type-check caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ATLAS runtime artifacts
+.atlas/
+*.log
+
+# Verification artifacts produced by scripts/verify.py and scripts/e2e.py
+verify_report.json
+verify_e2e.json
+verify_e2e_server.log
+
+# Development probes - regenerated on demand, never part of the deliverable
+_probe_*.json
+_ab*.json
+_smoke*.json
+_probe_*.txt
+
+# Editor and OS noise
+.idea/
+.vscode/
+*.swp
+Thumbs.db
+desktop.ini

@@ -1,0 +1,73 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "atlas-ai-stack"
+version = "1.0.0"
+description = "ATLAS - a modular, end-to-end runnable AI system: hybrid retrieval, guarded reranking, deterministic routing and grounding verification."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "晨星" }]
+keywords = ["rag", "retrieval", "reranking", "react", "grounding", "evaluation"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+# Core runtime only. The zero-dependency path needs no third-party import at
+# all; these three are required solely by the optional HTTP service.
+dependencies = [
+  "fastapi==0.141.1",
+  "uvicorn==0.53.0",
+  "pydantic==2.13.5",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest==9.1.1",
+  "httpx==0.28.1",
+]
+# Accelerators and heavyweight backends. Every one of these has a working
+# zero-dependency fallback; installing them changes quality, not capability.
+ai = [
+  "numpy==2.5.3",
+  "faiss-cpu==1.15.1",
+  "fastembed==0.8.0",
+  "llama-cpp-python==0.3.35",
+  "loguru==0.7.3",
+  "pypdf==6.19.0",
+]
+
+[project.scripts]
+atlas = "atlas.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/CJX0712/atlas-ai-stack"
+
+[tool.setuptools.packages.find]
+include = ["atlas*"]
+
+[tool.setuptools.package-data]
+atlas = ["resources/*.json", "resources/corpus/*.md"]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+addopts = "-q -p no:cacheprovider"
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]
+ignore = ["E501", "B008"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E402"]
