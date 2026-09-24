@@ -7,7 +7,7 @@
 #
 # Author: 晨星
 
-FROM python:3.13-slim AS base
+FROM python:3.14-slim AS base
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
