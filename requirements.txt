@@ -4,5 +4,5 @@
 # (mock LLM + hashed embeddings + in-memory index + argparse CLI).
 # These three are required only to serve the HTTP API.
 fastapi==0.141.1
-uvicorn==0.53.0
+uvicorn==0.54.0
 pydantic==2.13.5
